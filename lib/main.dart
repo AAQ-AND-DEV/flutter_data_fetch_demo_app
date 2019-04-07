@@ -4,14 +4,18 @@ import 'dart:convert';
 
 void main() async {
   List _data = await getJson();
-  List _imgs = ['https://i.stack.imgur.com/Dw6f7.png',
-  'https://i.stack.imgur.com/XPOr3.png', 'https://i.stack.imgur.com/YN0m7.png',
-'https://i.stack.imgur.com/wKzo8.png', 'https://i.stack.imgur.com/Qt4JP.png'];
+  List _imgs = [
+    'https://i.stack.imgur.com/Dw6f7.png',
+    'https://i.stack.imgur.com/XPOr3.png',
+    'https://i.stack.imgur.com/YN0m7.png',
+    'https://i.stack.imgur.com/wKzo8.png',
+    'https://i.stack.imgur.com/Qt4JP.png'
+  ];
   //print("data: $_data");
-  print(_data[0]["title"]);
-  for (int i = 0; i < _data.length; i++) {
+  //print(_data[0]["title"]);
+  /*for (int i = 0; i < _data.length; i++) {
     print("Data: ${_data[i]["title"]}");
-  }
+  }*/
   runApp(new MaterialApp(
       home: new Scaffold(
     appBar: AppBar(
@@ -29,10 +33,11 @@ void main() async {
               ),
               ListTile(
                 leading: CircleAvatar(
+                  radius: 35,
                   backgroundImage: NetworkImage(
-                      //"https://www.w3schools.com/w3css/img_lights.jpg",
-                      "${_imgs[pos%5]}",
-                      scale: .5),
+                    //"https://www.w3schools.com/w3css/img_lights.jpg",
+                    "${_imgs[pos % 5]}",
+                  ),
                 ),
                 title: Text(
                   _data[pos]["title"],
@@ -45,11 +50,27 @@ void main() async {
                 ),
                 subtitle: Text(_data[pos]["body"]),
                 trailing: Icon(Icons.keyboard_arrow_right),
+                onTap: (){ print("Hello: ${_data[pos]["userId"]}");
+                showTapMessage(context, pos);},
               )
             ],
           );
         }),
   )));
+}
+
+void showTapMessage(BuildContext context, int pos){
+    var alertDialog = new AlertDialog(
+      title: Text("Hello"),
+      actions: <Widget>[
+        FlatButton(onPressed: () => debugPrint("Ok pressed"),
+        child: Text("ok"),)
+      ],
+    );
+
+    showDialog(context: context, builder: (context){
+      return alertDialog;
+    });
 }
 
 Future<List> getJson() async {
